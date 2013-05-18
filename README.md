@@ -1,5 +1,6 @@
-grubbitr - Simple GRUB menu customization, without difficulty.
-===============================================================
+grubbitr 
+========
+**Simple GRUB menu customization, without difficulty.**
 
 This is a project written by Viktor Chynarov, licensing under the GNU General License will 
 be added shortly.
