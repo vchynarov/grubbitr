@@ -9,6 +9,7 @@ import write_grub
 import backend
 
 def switch(temp_names):
+	""" The command line UI behind the switch function. """
 	try:
 		print "Which number would you like to move?"
 		first_position = int(raw_input(" #: ")) - 1
@@ -24,6 +25,7 @@ def switch(temp_names):
 		return temp_names
 
 def rename(temp_names, temp_dictionary):
+	""" The command line UI behind the rename function. """ 
 	try:
 		print "What position name would you like to change? "
 		choice = int(raw_input("#: ")) - 1
@@ -39,11 +41,11 @@ def rename(temp_names, temp_dictionary):
 		return (temp_names, temp_dictionary)
 
 def prompt(modified_lines, os_names, os_dictionary, ):
-	state = 1
+	""" The overall wrapper for commandline user input. """
 	temp_names = os_names[:]
 	temp_dictionary = os_dictionary.copy()
 
-	while state == 1:
+	while 1:
 
 		print "\n"
 		print "Your current OS arrangement is: \n"
@@ -54,7 +56,7 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 		print "\nYou can either 'save', 'quit', 'switch', or 'rename'"
 
 		choice = raw_input("?: ")
-		if choice == "quit": state = 0
+		if choice == "quit": break 
 
 		elif choice == "switch":
 			temp_names = switch(temp_names)
@@ -68,7 +70,7 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 			if file_name == "": file_name = "newgrub.cfg"
 			
 			write_grub.write_to_file_wrapper(modified_lines, temp_names, temp_dictionary, file_name)
-			state = 0
+			return
 
 		else:
 			continue

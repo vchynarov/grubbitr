@@ -5,28 +5,34 @@
 # A program to edit the grub.cfg file so you have nice
 # operating systems listed.
 
-def create_write_space(lines):
-	modified_lines = lines[:]
-	begin_line = "\n\n### BEGIN grubbitr custom menu entries ###"
-	modified_lines.append(begin_line)
-	return modified_lines
+def remove_entries(lines):
+	""" This removes the old menu entries from the grub.cfg file. """		
+	ranges_to_remove = []
+	for i, line in enumerate(lines):
 
-def remove_entries(lines, mode="complete"):
-	""" Three different possible methods to remove 'old' entries.
-	
-	complete: completely wipes everything from:
-	"### BEGIN /etc/grub.d/30_os-prober" to
-	"### END /etc/grub.d/40_custom	
+		if line[:9] == "menuentry":
+			start_indice = i	
+			for j, sub_line in enumerate(lines[i + 1:]):
+				if sub_line[:2] == "}\n":
+					end_indice = j	
+					break
+			ranges_to_remove.append((i, i + j + 1))
+		
+	to_remove = []
+	for i, line in enumerate(ranges_to_remove):
+		to_remove += range(line[0], line[1] + 1)	
 
-	 """	
-	for line in lines:
-		if "### END" in line and "00_header" in line:
-			start_line = lines.index(line) + 2
-		elif "### BEGIN" in line and "41_custom" in line:
-			end_line = lines.index(line) - 2
-			break
-	
-	return (start_line, end_line)
+	modified_lines = []
+	for i in xrange(0, len(lines)):
+		if i not in to_remove:
+			modified_lines.append(lines[i])
+
+	# The following snippet removes commented out titles.
+	for line in modified_lines:
+		if "###" in line:
+			modified_lines.remove(line)
+
+	return modified_lines 
 
 def write_config_file(lines, filename="newgrub.cfg"):
 	raw_file = open(filename, "w")
@@ -54,9 +60,9 @@ def create_clean_config(modified_lines):
 	This creates a 'blank' grub.cfg.
 	"""
 	
-	modified_lines = create_write_space(modified_lines) #Creates a comment for grubbitr at end.
-	start_remove, end_remove = remove_entries(modified_lines) # Sets indices for removal of crud.
-	modified_lines = modified_lines[:start_remove] + modified_lines[end_remove:]
+	modified_lines = remove_entries(modified_lines) # Sets indices for removal of crud.
+	label_string = "\n### BEGIN grubbitr custom GRUB menu entries. ###\n"
+	modified_lines.append(label_string)
 
 	return modified_lines
 

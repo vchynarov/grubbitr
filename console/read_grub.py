@@ -1,10 +1,10 @@
 ### 
 # Written by Viktor Chynarov, May 10, 2013
 #
+# This is a module that contains all the information for
+# reading grub.cfg files and getting all required important
+# information out of it.
 #
-# A program to edit the grub.cfg file so you have nice
-# operating systems listed.
-
 def get_lines(input_file="grub.cfg"):
 	raw_file = open(input_file, "r")
 	raw_lines = raw_file.readlines()
@@ -38,7 +38,7 @@ def find_os_config(raw_lines, end_of_file, menu_entry_indices):
 
 	for i in menu_entry_indices[:]:
 		for j in xrange(i, end_of_file):
-			if raw_lines[j][:2] == "}\n": #Because menuentries are ended by '}\n'
+			if raw_lines[j][:2] == "}\n": #Because menu entries are ended by '}\n'
 				os_config_indices.append((i,j))
 				break		
 
@@ -71,12 +71,4 @@ def get_full_info():
 
 	token = (os_names, os_dictionary, raw_lines)
 	return token
-
-if __name__ == "__main__":
-	os_token = get_full_info()
-	os_dictionary = os_token[2]
-	os_names = os_token[0]
-	os_config_indices = os_token[1]
-	print os_dictionary[os_names[0]]
-
 
