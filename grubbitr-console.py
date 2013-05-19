@@ -85,7 +85,7 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 	return 
 
 ### End of writing and modifying function definitions.
-os_token = read_grub.get_full_info()
+os_token = read_grub.get_full_info(grub_directory + "grub.cfg")
 os_names = os_token[0] 
 os_dictionary = os_token[1]
 modified_lines = os_token[2]

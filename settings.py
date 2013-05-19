@@ -6,7 +6,7 @@ grub_directory = "/boot/grub/"
 
 # Should your change automatically override the current grub.cfg file,
 # or do you want to save the changes under a different name?
-grub_overwrite = False
+grub_overwrite = True
 
 # Do you want grubbitr to remove comments like:
 # ### BEGIN ------ ### in the grub.cfg?

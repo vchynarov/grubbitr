@@ -6,7 +6,7 @@
 # information out of it.
 #
 
-def get_lines(input_file="/boot/grub/grub.cfg"):
+def get_lines(input_file):
 	raw_file = open(input_file, "r")
 	raw_lines = raw_file.readlines()
 	raw_file.close()
@@ -60,10 +60,10 @@ def load_os_data(raw_lines, os_config_indices, os_names):
 
 	return os_dictionary			
 
-def get_full_info():
+def get_full_info(input_file):
 	os_names = []
 	
-	raw_lines = get_lines()	
+	raw_lines = get_lines(input_file)	
 	end_of_file = len(raw_lines)
 
 	menu_entry_indices, os_names = find_os_names(raw_lines)
