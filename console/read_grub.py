@@ -58,5 +58,5 @@ def get_full_info(input_file):
 	menu_entry_indices, os_names = find_os_names(raw_lines)
 	os_dictionary = load_os_data(raw_lines, menu_entry_indices, os_names)
 
-	return os_names, os_dictionary, raw_lines
+	return raw_lines, os_names, os_dictionary,
 
