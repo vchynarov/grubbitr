@@ -30,18 +30,13 @@ def remove_entries(lines):
 
 	return modified_lines 
 
-def add_operating_systems(modified_lines, temp_names, os_dictionary):
-	for os_name in temp_names:
+def write_to_file(modified_lines, os_names, os_dictionary, file_name):
+	for os_name in os_names:
 		os_config = os_dictionary[os_name]
 		modified_lines.append("\n")
-
+		
 		for config_line in os_config:
-			 modified_lines.append(config_line)
-
-	return modified_lines	
-
-def write_to_file_wrapper(modified_lines, os_names, os_dictionary, file_name):
-	modified_lines = add_operating_systems(modified_lines, os_names, os_dictionary)
+			modified_lines.append(config_line)
 
 	with open(file_name, "w") as raw_file:
 		raw_file.writelines(modified_lines)

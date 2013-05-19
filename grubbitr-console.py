@@ -77,7 +77,7 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 			file_name = raw_input("File Name: ")
 			if file_name == "": file_name = default 
 			
-			write_grub.write_to_file_wrapper(modified_lines, temp_names, temp_dictionary, grub_directory + file_name)
+			write_grub.write_to_file(modified_lines, temp_names, temp_dictionary, grub_directory + file_name)
 			return
 
 ### End of writing and modifying function definitions.
