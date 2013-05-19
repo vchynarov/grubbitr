@@ -1,3 +1,6 @@
+grubbitr - Simple GRUB menu customization, without difficulty.
+===============================================================
+
 This is a project written by Viktor Chynarov, licensing under the GNU General License will 
 be added shortly.
 
@@ -6,7 +9,7 @@ the GTK-based version (gui). The gui relies on modules from the console version.
 
 
 How it works:
-
+--------------
 Basically, ensure you have permission to read and write the grub.cfg file on /boot/grub.
 
 Instructions for console:
