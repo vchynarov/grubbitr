@@ -5,7 +5,8 @@
 # reading grub.cfg files and getting all required important
 # information out of it.
 #
-def get_lines(input_file="grub.cfg"):
+
+def get_lines(input_file="/boot/grub/grub.cfg"):
 	raw_file = open(input_file, "r")
 	raw_lines = raw_file.readlines()
 	raw_file.close()

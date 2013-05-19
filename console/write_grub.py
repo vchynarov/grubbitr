@@ -5,6 +5,8 @@
 # A program to edit the grub.cfg file so you have nice
 # operating systems listed.
 
+grub_cfg_location = "/boot/grub/grub.cfg"
+
 def remove_entries(lines):
 	""" This removes the old menu entries from the grub.cfg file. """		
 	ranges_to_remove = []
@@ -34,7 +36,7 @@ def remove_entries(lines):
 
 	return modified_lines 
 
-def write_config_file(lines, filename="newgrub.cfg"):
+def write_config_file(lines, filename=grub_cfg_location):
 	raw_file = open(filename, "w")
 	for line in lines: raw_file.write(line)	
 	raw_file.close()
@@ -49,7 +51,7 @@ def add_operating_systems(modified_lines, temp_names, os_dictionary):
 
 	return modified_lines	
 
-def write_to_file_wrapper(modified_lines, os_names, os_dictionary, file_name):
+def write_to_file_wrapper(modified_lines, os_names, os_dictionary, file_name=grub_cfg_location):
 	modified_lines = add_operating_systems(modified_lines, os_names, os_dictionary)
 	write_config_file(modified_lines, file_name)
 	

@@ -4,9 +4,9 @@
 #
 # A program to edit the grub.cfg file so you have nice
 # operating systems listed.
-import read_grub
-import write_grub
-import backend
+from console import read_grub, write_grub, backend
+import settings
+grub_directory = settings.grub_directory 
 
 def switch(temp_names):
 	""" The command line UI behind the switch function. """
@@ -65,11 +65,18 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 			temp_names, temp_dictionary = rename(temp_names, temp_dictionary)
 
 		elif choice == "save":	
-			print "What file would you like to save the new configuration to? (default=newgrub.cfg)"
+			query_line = "What file would you like to save the new configuration to? "
+			if settings.grub_overwrite:
+				default = "grub.cfg"
+			else:
+				default = "newgrub.cfg"
+
+			print "{0} (default={1})".format(query_line,default) 
+
 			file_name = raw_input("File Name: ")
-			if file_name == "": file_name = "newgrub.cfg"
+			if file_name == "": file_name = default 
 			
-			write_grub.write_to_file_wrapper(modified_lines, temp_names, temp_dictionary, file_name)
+			write_grub.write_to_file_wrapper(modified_lines, temp_names, temp_dictionary, grub_directory + file_name)
 			return
 
 		else:
