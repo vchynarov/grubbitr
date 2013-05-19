@@ -15,13 +15,11 @@ Basically, ensure you have permission to read and write the grub.cfg file on /bo
 
 Instructions for console:
 
-	1.) Copy the file to the same directory as /grubbitr/console/
-	2.) Run grubbitr-console.py. Ensure the name of the file remains as grub.cfg.
-	3.) Type out the four possible commands, quit, save, rename or switch.
-	4.) After you're done, save your changes.
-	5.) You will then get a file with an updated grub menu configuration.
-	6.) Replace your current grub.cfg in /boot/grub/ with this file. (BACKUP FIRST!)
-
+	1.) Run grubbitr-console.py as a superuser. Ensure the name of the file remains as grub.cfg.
+	2.) Type out the four possible commands, quit, save, rename or switch.
+	3.) After you're done, save your changes.
+	4.) If grub_overwrite is set to True in settings.py, then your new
+		grub configuration is automatically done.
 
 Instructions for GUI:
 	-GUI to be implemented.
