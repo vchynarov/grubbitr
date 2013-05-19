@@ -29,7 +29,7 @@ def find_os_names(raw_lines):
 
 		os_names.append(current_line[first_quote:end_quote])
 	
-	return (menu_entry_indices, os_names)
+	return menu_entry_indices, os_names
 
 def find_os_config(raw_lines, end_of_file, menu_entry_indices):
 	""" This determines the start and end positions of a glob of text. """ 

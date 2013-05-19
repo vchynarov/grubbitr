@@ -13,16 +13,16 @@ def switch(temp_names):
 	try:
 		print "Which number would you like to move?"
 		first_pos = int(raw_input(" #: ")) - 1
-		print "Which number would you like to swap with position {0}?".format(first_pos + 1)
 
+		print "Which number would you like to swap with position {0}?".format(first_pos + 1)
 		second_pos = int(raw_input(" #: ")) - 1
 
 		temp_names[first_pos], temp_names[second_pos] = temp_names[second_pos], temp_names[first_pos]
-		return temp_names
 	
 	except:
 		print "Incorrect values were entered!"
-		return temp_names
+
+	return temp_names
 
 def rename(temp_names, temp_dictionary):
 	""" The command line UI behind the rename function. """ 
@@ -34,11 +34,11 @@ def rename(temp_names, temp_dictionary):
 		print "What name would you like to change it to? "
 		new_name = raw_input("New Name: ")
 		temp_names, temp_dictionary = backend.rename(temp_names, temp_dictionary, os_name, new_name)
-		return (temp_names, temp_dictionary)	
 	
 	except:
 		print "Incorrect values were entered!"
-		return (temp_names, temp_dictionary)
+
+	return (temp_names, temp_dictionary)
 
 def prompt(modified_lines, os_names, os_dictionary, ):
 	""" The overall wrapper for commandline user input. """
@@ -56,7 +56,8 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 		print "\nYou can either 'save', 'quit', 'switch', or 'rename'"
 
 		choice = raw_input("?: ")
-		if choice == "quit": break 
+		if choice == "quit": 
+			break 
 
 		elif choice == "switch":
 			temp_names = switch(temp_names)
@@ -78,11 +79,6 @@ def prompt(modified_lines, os_names, os_dictionary, ):
 			
 			write_grub.write_to_file_wrapper(modified_lines, temp_names, temp_dictionary, grub_directory + file_name)
 			return
-
-		else:
-			continue
-
-	return 
 
 ### End of writing and modifying function definitions.
 os_token = read_grub.get_full_info(grub_directory + "grub.cfg")
