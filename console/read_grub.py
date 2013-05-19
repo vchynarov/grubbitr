@@ -18,7 +18,7 @@ def find_os_names(raw_lines):
 	os_names = []
 	
 	for line in raw_lines:
-		if line[:9] == "menuentry":
+		if line.startswith("menuentry"):
 			menu_entry_indices.append(raw_lines.index(line))
 
 	for i in menu_entry_indices:
@@ -39,7 +39,7 @@ def find_os_config(raw_lines, end_of_file, menu_entry_indices):
 
 	for i in menu_entry_indices[:]:
 		for j in xrange(i, end_of_file):
-			if raw_lines[j][:2] == "}\n": #Because menu entries are ended by '}\n'
+			if raw_lines[j].startswith("}\n"): #Because menu entries are ended by '}\n'
 				os_config_indices.append((i,j))
 				break		
 

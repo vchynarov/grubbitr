@@ -10,10 +10,10 @@ def remove_entries(lines):
 	ranges_to_remove = []
 	for i, line in enumerate(lines):
 
-		if line[:9] == "menuentry":
+		if line.startswith("menuentry"):
 			start_indice = i	
 			for j, sub_line in enumerate(lines[i + 1:]):
-				if sub_line[:2] == "}\n":
+				if sub_line.startswith("}\n"):
 					end_indice = j	
 					break
 			ranges_to_remove.append((i, i + j + 1))

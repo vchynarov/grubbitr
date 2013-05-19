@@ -12,12 +12,12 @@ def switch(temp_names):
 	""" The command line UI behind the switch function. """
 	try:
 		print "Which number would you like to move?"
-		first_position = int(raw_input(" #: ")) - 1
-		print "Which number would you like to swap with position {0}?".format(first_position + 1)
+		first_pos = int(raw_input(" #: ")) - 1
+		print "Which number would you like to swap with position {0}?".format(first_pos + 1)
 
-		second_position = int(raw_input(" #: ")) - 1
+		second_pos = int(raw_input(" #: ")) - 1
 
-		temp_names = backend.switch(temp_names, first_position, second_position)
+		temp_names[first_pos], temp_names[second_pos] = temp_names[second_pos], temp_names[first_pos]
 		return temp_names
 	
 	except:
