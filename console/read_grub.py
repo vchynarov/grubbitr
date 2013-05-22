@@ -5,6 +5,7 @@
 # reading grub.cfg files and getting all required important
 # information out of it.
 #
+from os_class import OS
 
 def find_os_names(raw_lines):
 	""" Determines the current names of the operating system. """
@@ -45,7 +46,9 @@ def load_os_data(raw_lines, menu_entry_indices, os_names):
 		start_line = os_index[0]
 		end_line = os_index[1]
 		os_lines = raw_lines[start_line:end_line + 1]
-		os_dictionary[os_name] = os_lines
+
+		# New: Creating the OS class instance.
+		os_dictionary[os_name] = OS(os_name, os_lines)
 
 	return os_dictionary			
 
@@ -60,3 +63,7 @@ def get_full_info(input_file):
 
 	return raw_lines, os_names, os_dictionary,
 
+
+if __name__ == "__main__":
+	os_token = get_full_info("/boot/grub/grub.cfg")
+	print os_token[2]

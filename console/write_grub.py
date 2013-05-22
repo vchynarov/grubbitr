@@ -32,11 +32,10 @@ def remove_entries(lines):
 
 def write_to_file(modified_lines, os_names, os_dictionary, file_name):
 	for os_name in os_names:
-		os_config = os_dictionary[os_name]
 		modified_lines.append("\n")
-		
-		for config_line in os_config:
-			modified_lines.append(config_line)
+
+		for line in os_dictionary[os_name].data:
+			modified_lines.append(line)
 
 	with open(file_name, "w") as raw_file:
 		raw_file.writelines(modified_lines)

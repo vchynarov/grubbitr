@@ -4,7 +4,7 @@
 #
 # A program to edit the grub.cfg file so you have nice
 # operating systems listed.
-from console import read_grub, write_grub, backend
+from console import read_grub, write_grub 
 import settings
 grub_directory = settings.grub_directory 
 
@@ -12,12 +12,12 @@ def switch(os_names):
 	""" The command line UI behind the switch function. """
 	try:
 		print "Which number would you like to move?"
-		first_pos = int(raw_input(" #: ")) - 1
+		first = int(raw_input("#: ")) - 1
 
-		print "Which number would you like to swap with position {0}?".format(first_pos + 1)
-		second_pos = int(raw_input(" #: ")) - 1
+		print "Which number would you like to swap with position {0}?".format(first + 1)
+		second = int(raw_input("#: ")) - 1
 
-		os_names[first_pos], os_names[second_pos] = os_names[second_pos], os_names[first_pos]
+		os_names[first], os_names[second] = os_names[second], os_names[first]
 	
 	except IndexError:
 		print "That number is not in the list."
@@ -36,8 +36,11 @@ def rename(os_names, os_dictionary):
 	
 		print "What name would you like to change it to? "
 		new_name = raw_input("New Name: ")
-		os_names, os_dictionary = backend.rename(os_names, os_dictionary, os_name, new_name)
-	
+
+		os_dictionary[new_name] = os_dictionary.pop(os_name)		
+		os_dictionary[new_name].change_name(new_name)
+		os_names[choice] = new_name
+
 	except IndexError:
 		print "That number is not in the list."
 
