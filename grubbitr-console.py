@@ -19,8 +19,11 @@ def switch(os_names):
 
 		os_names[first_pos], os_names[second_pos] = os_names[second_pos], os_names[first_pos]
 	
-	except:
-		print "Incorrect values were entered!"
+	except IndexError:
+		print "That number is not in the list."
+
+	except ValueError:
+		print "You did not enter a number."
 
 	return os_names
 
@@ -35,8 +38,11 @@ def rename(os_names, os_dictionary):
 		new_name = raw_input("New Name: ")
 		os_names, os_dictionary = backend.rename(os_names, os_dictionary, os_name, new_name)
 	
-	except:
-		print "Incorrect values were entered!"
+	except IndexError:
+		print "That number is not in the list."
+
+	except ValueError:
+		print "You did not enter a number."
 
 	return os_names, os_dictionary
 
