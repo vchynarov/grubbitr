@@ -15,12 +15,12 @@ Basically, ensure you have permission to read and write the grub.cfg file on /bo
 
 Instructions for console:
 
-	1.) Run grubbitr-console.py as a superuser. Ensure the name of the file remains as grub.cfg.
-	2.) Type out the four possible commands, quit, save, rename or switch.
-	3.) After you're done, save your changes.
-	4.) If grub_overwrite is set to True in settings.py, then your new
-		grub configuration is automatically done.
+    1.) Run grubbitr-console.py as a superuser. Ensure the name of the file remains as grub.cfg.
+    2.) Type out the four possible commands, quit, save, rename or switch.
+    3.) After you're done, save your changes.
+    4.) If grub_overwrite is set to True in settings.py, then your new
+        grub configuration is automatically done.
 
 Instructions for GUI:
-	-GUI to be implemented.
+    -GUI to be implemented.
 
