@@ -31,6 +31,8 @@ def remove_entries(lines):
     return modified_lines 
 
 def write_to_file(modified_lines, os_names, os_dictionary, file_name):
+    modified_lines = create_clean_config(modified_lines)
+
     for os_name in os_names:
         modified_lines.append("\n")
 
@@ -42,8 +44,6 @@ def write_to_file(modified_lines, os_names, os_dictionary, file_name):
 
 def create_clean_config(modified_lines):
     """
-    This function is a routine for running 3 other functions. 
-    The other three functions remove the configuration details for the other operating systems present.
     This creates a 'blank' grub.cfg.
     """
     
