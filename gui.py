@@ -29,7 +29,7 @@ class GrubbitrMainWindow(Gtk.Window):
     
         # Allows multiple rows to be selected.
         self.selection = self.os_view.get_selection()
-        self.selection.set_mode(Gtk.SelectionMode.MULTIPLE)
+        self.selection.set_mode(Gtk.SelectionMode.BROWSE)
         # TreeView list of operating systems end.
 
         # Write Button
@@ -46,9 +46,6 @@ class GrubbitrMainWindow(Gtk.Window):
         down_switch_button = Gtk.Button(label="Move Down")
         down_switch_button.connect("clicked", self.switch_down)
 
-        test_button = Gtk.Button(label="Test Something!")
-        test_button.connect("clicked", self.test)
-
         # Placing everything in a grid.
         grid = Gtk.Grid()
         grid.insert_column(0)
@@ -63,7 +60,6 @@ class GrubbitrMainWindow(Gtk.Window):
 
         grid.attach(up_switch_button, 2, 1, 1, 1)
         grid.attach(down_switch_button, 2, 2, 1, 1)
-        grid.attach(test_button, 2, 3, 1, 1)
         
     def read_button_click(self, widget):
         if len(self.os_list) != 0:
@@ -96,38 +92,43 @@ class GrubbitrMainWindow(Gtk.Window):
     def switch_up(self, widget):
         currently_selected = self.selection.get_selected_rows()
         current_path = currently_selected[1][0]
-
-        print self.os_list[current_path][0]
-        if self.os_names[current_path][0] != self.os_names[0][0]:
-            print "yeah"
-            above_path = current_path + 1
-            print self.os_list[above_path][0]
-
-    def switch_down(self, widget):
-        pass
-    
-    def test(self, widget):
-        currently_selected = self.selection.get_selected_rows()
-
-        if len(currently_selected[1]) == 2:
-            current_path = currently_selected[1][0]
-            above_path = currently_selected[1][1]
-
+        
+        # To see if it's already at the top.
+        if str(current_path) != "0":
+            # Get iterator objects, and find above position.
+            above_path = int(str(current_path)) - 1
+            above_iter = self.os_list.get_iter(above_path) 
             current_iter = self.os_list.get_iter(current_path)
-            above_iter = self.os_list.get_iter(above_path)       
 
+            # Swaps the positions with the Gtk.Iter objects as indices.
             self.os_list.swap(current_iter, above_iter)
-            i, j  = int(str(current_path)), int(str(above_path))
+            
+            # These objects can only be converted first to strings,
+            # then to integers.
+            i, j = int(str(current_path)), int(str(above_path)) 
             self.os_names[i], self.os_names[j] = self.os_names[j], self.os_names[i]
 
-        elif len(currently_selected[1]) == 1:
-            current_path = currently_selected[1][0]
-            print current_path
+        else:
+            print "At Top."
 
+    def switch_down(self, widget):
+        currently_selected = self.selection.get_selected_rows()
+        current_path = currently_selected[1][0]
 
+        bottom_position = str(len(self.os_names) - 1)
+        
+        if str(current_path) != bottom_position:
+            below_path = int(str(current_path)) + 1
+            below_iter = self.os_list.get_iter(below_path)
+            current_iter = self.os_list.get_iter(current_path)
 
+            self.os_list.swap(current_iter, below_iter)
+            i, j = int(str(current_path)), int(str(below_path))
+            self.os_names[i], self.os_names[j] = self.os_names[j], self.os_names[i]
 
-
+        else:
+            print "At Bottom."
+    
 if __name__ == "__main__":
     main_window = GrubbitrMainWindow()
     main_window.show_all()
