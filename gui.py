@@ -8,8 +8,8 @@ class GrubbitrMainWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="Grubbitr")
         self.connect("delete-event", Gtk.main_quit)        
 
-        read_button = Gtk.Button(label="Read grub.cfg")
-        read_button.connect("clicked", self.read_button_click)
+        self.read_button = Gtk.Button(label="Read grub.cfg")
+        self.read_button.connect("clicked", self.read_button_click)
 
         # TreeView list of operatings systems start.
         self.os_names = ["","","","", ""]
@@ -39,28 +39,46 @@ class GrubbitrMainWindow(Gtk.Window):
 
             
         # Up Switch Button
-        up_switch_button = Gtk.Button(label="Move Up")
-        up_switch_button.connect("clicked", self.switch_up)
+        self.up_switch_button = Gtk.Button(label="Move Up")
+        self.up_switch_button.connect("clicked", self.switch_up)
     
         # Down Switch Button
-        down_switch_button = Gtk.Button(label="Move Down")
-        down_switch_button.connect("clicked", self.switch_down)
+        self.down_switch_button = Gtk.Button(label="Move Down")
+        self.down_switch_button.connect("clicked", self.switch_down)
 
-        # Placing everything in a grid.
-        grid = Gtk.Grid()
-        grid.insert_column(0)
-        grid.attach(read_button, 1, 0, 1, 1)
-        grid.attach(self.os_view, 1, 1, 1, 1)
-        grid.attach(write_button, 1, 6, 1, 1)
+        # Placing everything in a self.grid.
+        self.grid = Gtk.Grid()
+        self.grid.attach(self.read_button, 1, 0, 1, 1)
+        self.grid.attach(self.os_view, 1, 1, 1, 3)
+        
+        write_button.set_margin_top(100)
+        self.grid.attach(write_button, 1, 6, 1, 1)
     
-        left_column = Gtk.Box()
-        grid.attach(left_column, 0, 0, 1, 3)
-        self.add(grid)
+        self.set_default_spacing()
+
+        print help(self.os_view)
+        print self.os_view.get_fixed_height_mode()
+        self.add(self.grid)
         # Grid placement end.
 
-        grid.attach(up_switch_button, 2, 1, 1, 1)
-        grid.attach(down_switch_button, 2, 2, 1, 1)
+        self.grid.attach(self.up_switch_button, 2, 2, 1, 1)
+        self.grid.attach(self.down_switch_button, 2, 3, 1, 1)
         
+
+    def set_default_spacing(self):
+        # Maximum margins for Grid.
+
+        self.grid.set_property("row_spacing", 10)
+        self.grid.set_margin_left(50)
+        self.grid.set_margin_top(20)
+
+        # Settings for buttons
+        # Read Button
+
+        #up and down switches
+
+        self.up_switch_button.set_margin_left(30)
+        self.down_switch_button.set_margin_left(30)
     def read_button_click(self, widget):
         if len(self.os_list) != 0:
             self.os_list.clear()
