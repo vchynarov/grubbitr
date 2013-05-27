@@ -11,26 +11,7 @@ class GrubbitrMainWindow(Gtk.Window):
         self.read_button = Gtk.Button(label="Read grub.cfg")
         self.read_button.connect("clicked", self.read_button_click)
 
-        # TreeView list of operatings systems start.
-        self.os_names = ["","","","", ""]
-
-        self.os_list = Gtk.ListStore(str)
-        for os_name in self.os_names: self.os_list.append([os_name])
-        
-        self.os_view = Gtk.TreeView(model=self.os_list)
-
-        renderer_os_text = Gtk.CellRendererText()
-        renderer_os_text.set_property("editable", True)
-        renderer_os_text.connect("edited", self.rename)
-        
-        self.os_names_column = Gtk.TreeViewColumn("Operating Systems", 
-                                                   renderer_os_text, text=0)
-        self.os_view.append_column(self.os_names_column)
-    
-        # Allows multiple rows to be selected.
-        self.selection = self.os_view.get_selection()
-        self.selection.set_mode(Gtk.SelectionMode.BROWSE)
-        # TreeView list of operating systems end.
+        self.create_os_view()
 
         # Write Button
         write_button = Gtk.Button(label="Save Changes")
@@ -64,7 +45,29 @@ class GrubbitrMainWindow(Gtk.Window):
         self.grid.attach(self.up_switch_button, 2, 2, 1, 1)
         self.grid.attach(self.down_switch_button, 2, 3, 1, 1)
         
+    def create_os_view(self):
+        self.os_names = [140 * " " for i in xrange(6)]
+        self.os_list = Gtk.ListStore(str)
+        for os_name in self.os_names: self.os_list.append([os_name])
+        
+        self.os_view = Gtk.TreeView(model=self.os_list)
 
+        renderer_os_text = Gtk.CellRendererText()
+        renderer_os_text.set_property("editable", True)
+        renderer_os_text.connect("edited", self.rename)
+        
+        self.os_names_column = Gtk.TreeViewColumn("Operating Systems", 
+                                                   renderer_os_text, text=0)
+        self.os_view.append_column(self.os_names_column)
+    
+        # Allows multiple rows to be selected.
+        self.selection = self.os_view.get_selection()
+        self.selection.set_mode(Gtk.SelectionMode.BROWSE)
+        # TreeView list of operating systems end.
+
+       
+
+    
     def set_default_spacing(self):
         # Maximum margins for Grid.
 
