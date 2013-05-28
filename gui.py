@@ -1,5 +1,5 @@
 from gi.repository import Gtk
-from console import read_grub, write_grub
+from backend import read_grub, write_grub
 import settings
 
 
