@@ -84,6 +84,7 @@ class GrubbitrMainWindow(Gtk.Window):
    
          
         self.set_default_spacing()
+
     def read_button_click(self, widget):
         # A quick clear to ensure no funny behaviour if 
         # the button is pressed multiple times.
@@ -94,7 +95,7 @@ class GrubbitrMainWindow(Gtk.Window):
             self.os_lines = []
             self.os_dictionary = {}
 
-        os_token = read_grub.get_full_info(settings.grub_directory + "test.cfg")
+        os_token = read_grub.get_full_info(settings.grub_directory + "grub.cfg")
         self.os_lines, self.os_names, self.os_dictionary = os_token
 
         # Updating self.os_view to display changes.
@@ -110,8 +111,14 @@ class GrubbitrMainWindow(Gtk.Window):
         self.os_dictionary[text].change_name(text)
          
     def write_button_click(self, widget):
+        # Whether to overwrite grub.cfg or not.
+        if settings.grub_overwrite:
+            file_name = "grub.cfg"
+        elif not settings.grub_overwrite:
+            file_name = "test.cfg"
+
         write_grub.write_to_file(self.os_lines, self.os_names,
-                 self.os_dictionary, settings.grub_directory + "test.cfg")
+                 self.os_dictionary, settings.grub_directory + file_name)
 
     def switch_up(self, widget):
         currently_selected = self.selection.get_selected_rows()
