@@ -7,26 +7,40 @@
 
 def remove_entries(lines):
     """ This removes the old menu entries from the grub.cfg file. """       
-    modified_lines = []
+    no_blocks_lines = []
     remove_block = False
 
     for line in lines:
         
         if "###" in line:
             continue
-
         if remove_block:
             continue
-
         if line.startswith("}\n") and remove_block == True:
             remove_block = False
             continue
-
         if line.startswith("menuentry"):
             remove_block = True
             continue
 
-        modified_lines.append(line) # If script proceeds here, then current line is not in block.
+        no_blocks_lines.append(line) # If script proceeds here, then current line is not in block.
+
+    modified_lines = []
+    # This part removes wasteful and unneeded whitespace.
+    for line in no_blocks_lines:
+        empty = False
+
+        if line == "\n" and not empty:
+            empty = True
+            continue
+
+        elif line == "\n" and empty:
+            continue
+ 
+        elif line != "\n" and empty:
+            empty = False
+
+        modified_lines.append(line)
 
     return modified_lines 
 
@@ -48,7 +62,7 @@ def create_clean_config(modified_lines):
     """
     
     modified_lines = remove_entries(modified_lines) # Sets indices for removal of crud.
-    label_string = "### BEGIN grubbitr custom GRUB menu entries. ###\n"
+    label_string = "\n\n### BEGIN grubbitr custom GRUB menu entries. ###\n"
     modified_lines.append(label_string)
 
     return modified_lines
