@@ -8,43 +8,11 @@ class GrubbitrMainWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="Grubbitr")
         self.connect("delete-event", Gtk.main_quit)        
 
-        self.read_button = Gtk.Button(label="Read grub.cfg")
-        self.read_button.connect("clicked", self.read_button_click)
-
         self.create_os_view()
+        self.create_buttons()
+        self.bulk_attach()
 
-        # Write Button
-        write_button = Gtk.Button(label="Save Changes")
-        write_button.connect("clicked", self.write_button_click)
-        # END
-
-            
-        # Up Switch Button
-        self.up_switch_button = Gtk.Button(label="Move Up")
-        self.up_switch_button.connect("clicked", self.switch_up)
-    
-        # Down Switch Button
-        self.down_switch_button = Gtk.Button(label="Move Down")
-        self.down_switch_button.connect("clicked", self.switch_down)
-
-        # Placing everything in a self.grid.
-        self.grid = Gtk.Grid()
-        self.grid.attach(self.read_button, 1, 0, 1, 1)
-        self.grid.attach(self.os_view, 1, 1, 1, 3)
-        
-        write_button.set_margin_top(100)
-        self.grid.attach(write_button, 1, 6, 1, 1)
-    
-        self.set_default_spacing()
-
-        print help(self.os_view)
-        print self.os_view.get_fixed_height_mode()
-        self.add(self.grid)
-        # Grid placement end.
-
-        self.grid.attach(self.up_switch_button, 2, 2, 1, 1)
-        self.grid.attach(self.down_switch_button, 2, 3, 1, 1)
-        
+       
     def create_os_view(self):
         self.os_names = [140 * " " for i in xrange(6)]
         self.os_list = Gtk.ListStore(str)
@@ -63,11 +31,26 @@ class GrubbitrMainWindow(Gtk.Window):
         # Allows multiple rows to be selected.
         self.selection = self.os_view.get_selection()
         self.selection.set_mode(Gtk.SelectionMode.BROWSE)
-        # TreeView list of operating systems end.
-
-       
-
     
+    def create_buttons(self):
+        # Read grub.cfg button.
+        self.read_button = Gtk.Button(label="Read grub.cfg")
+        self.read_button.connect("clicked", self.read_button_click)
+        # Write grub.cfg button.
+        self.write_button = Gtk.Button(label="Save Changes")
+        self.write_button.connect("clicked", self.write_button_click)
+            
+        # Switch Buttons
+        self.up_switch_button = Gtk.Button(label="Move Up")
+        self.up_switch_button.connect("clicked", self.switch_up)
+        self.down_switch_button = Gtk.Button(label="Move Down")
+        self.down_switch_button.connect("clicked", self.switch_down)
+
+   
+        # Cancel Button
+        self.cancel_button = Gtk.Button(label="Cancel")
+        self.cancel_button.connect("clicked", Gtk.main_quit)
+
     def set_default_spacing(self):
         # Maximum margins for Grid.
 
@@ -76,13 +59,35 @@ class GrubbitrMainWindow(Gtk.Window):
         self.grid.set_margin_top(20)
 
         # Settings for buttons
-        # Read Button
-
+        # Write button
+        self.write_button.set_margin_top(60)
+        self.write_button.set_margin_right(10)
+        self.cancel_button.set_margin_top(60)
+        self.cancel_button.set_margin_left(10)
         #up and down switches
 
         self.up_switch_button.set_margin_left(30)
         self.down_switch_button.set_margin_left(30)
+
+    def bulk_attach(self):
+        # Placing everything in a self.grid.
+        self.grid = Gtk.Grid()
+        self.grid.attach(self.read_button, 0, 0, 2, 1)
+        self.grid.attach(self.os_view, 0, 1, 2, 4)
+        
+        self.grid.attach(self.write_button, 0, 6, 1, 1)
+        self.grid.attach(self.cancel_button, 1, 6, 1, 1)    
+        self.add(self.grid)
+
+        self.grid.attach(self.up_switch_button, 5, 2, 1, 1)
+        self.grid.attach(self.down_switch_button, 5, 3, 1, 1)
+   
+         
+        self.set_default_spacing()
     def read_button_click(self, widget):
+        # A quick clear to ensure no funny behaviour if 
+        # the button is pressed multiple times.
+
         if len(self.os_list) != 0:
             self.os_list.clear()
             self.os_names = []
@@ -94,7 +99,6 @@ class GrubbitrMainWindow(Gtk.Window):
 
         # Updating self.os_view to display changes.
         for os_name in self.os_names: self.os_list.append([os_name])
-
 
     def rename(self, widget, path, text):
         old_name = self.os_list[path][0]
@@ -109,7 +113,6 @@ class GrubbitrMainWindow(Gtk.Window):
         write_grub.write_to_file(self.os_lines, self.os_names,
                  self.os_dictionary, settings.grub_directory + "test.cfg")
 
-
     def switch_up(self, widget):
         currently_selected = self.selection.get_selected_rows()
         current_path = currently_selected[1][0]
@@ -123,7 +126,6 @@ class GrubbitrMainWindow(Gtk.Window):
 
             # Swaps the positions with the Gtk.Iter objects as indices.
             self.os_list.swap(current_iter, above_iter)
-            
             # These objects can only be converted first to strings,
             # then to integers.
             i, j = int(str(current_path)), int(str(above_path)) 
